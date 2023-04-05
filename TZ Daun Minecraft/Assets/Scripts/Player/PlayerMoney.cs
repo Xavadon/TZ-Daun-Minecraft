@@ -29,8 +29,9 @@ public class PlayerMoney : MonoBehaviour
 
     private void DecreaseMoney(int value)
     {
-        if ((Money - value) > 0)
+        if ((Money - value) >= 0)
         {
+            Debug.Log(value);
             Money -= value;
             UpdateUI();
         }

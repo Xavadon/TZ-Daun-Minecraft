@@ -56,8 +56,10 @@ public class PlayerDigging : MonoBehaviour
 
     private void UpgradePickaxe(float value)
     {
-        Debug.Log(1.3 / value);
-        _animatorHandler.animator.SetFloat("DigSpeed", 1.3f / (value/2));
+        var digSpeed = _animatorHandler.animator.GetFloat("DigSpeed");
+        digSpeed += 0.1f;
+        _animatorHandler.animator.SetFloat("DigSpeed", digSpeed);
+
         _cooldown = new WaitForSeconds(value);
         _digCooldown = value;
     }

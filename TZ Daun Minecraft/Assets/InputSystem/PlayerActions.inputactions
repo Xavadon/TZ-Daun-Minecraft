@@ -6,15 +6,6 @@
             "id": "c0325df9-8f28-41ab-9ebc-521527a095a3",
             "actions": [
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "aa6a8b84-c8cf-47ad-bd6b-6ed382b450d5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Movement",
                     "type": "Value",
                     "id": "3e85b013-867e-4c35-8b47-69903e5ba887",
@@ -26,18 +17,7 @@
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "8ae26f37-f5fa-4312-bb56-c1abba3e1320",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "2D Vector",
+                    "name": "2D Vector Keyboard",
                     "id": "dfb615ea-1d44-427b-99f8-685b8bdb8f3a",
                     "path": "2DVector",
                     "interactions": "",
@@ -90,6 +70,17 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "ab26f2ec-959a-4340-b6be-ed980414f971",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
