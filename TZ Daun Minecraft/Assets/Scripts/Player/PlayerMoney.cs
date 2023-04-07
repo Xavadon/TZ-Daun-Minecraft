@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class PlayerMoney : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _moneyText;
+    [SerializeField] private TextMeshProUGUI[] _moneyText = new TextMeshProUGUI[2];
+
+    private int _indexUI;
 
     public static int Money { get; private set; }
 
@@ -19,6 +21,22 @@ public class PlayerMoney : MonoBehaviour
     {
         DiggingObject.OnDig -= IncreaseMoney;
         Shop.OnBuy -= DecreaseMoney;
+    }
+
+    private void Start()
+    {
+        switch (YandexSDK.YaSDK.instance.currentPlatform)
+        {
+            case YandexSDK.Platform.desktop:
+                _indexUI = 0;
+                break;
+            case YandexSDK.Platform.phone:
+                _indexUI = 1;
+                break;
+            default:
+                _indexUI = 1;
+                break;
+        }
     }
 
     private void IncreaseMoney(int value)
@@ -39,6 +57,6 @@ public class PlayerMoney : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (_moneyText != null) _moneyText.text = Money.ToString();
+        if (_moneyText != null) _moneyText[_indexUI].text = Money.ToString();
     }
 }

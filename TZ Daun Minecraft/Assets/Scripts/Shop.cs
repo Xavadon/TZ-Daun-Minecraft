@@ -8,17 +8,18 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Collider))]
 public class Shop : MonoBehaviour
 {
-    [SerializeField] private GameObject UIToEnable;
+    [SerializeField] private GameObject[] UIToEnable = new GameObject[2];
     [SerializeField] private int[] _pickaxePrice = new int[8];
     [SerializeField] private float[] _pickaxeSpeed = new float[8];
-    [SerializeField] private TextMeshProUGUI _pickaxePriceText;
-    [SerializeField] private TextMeshProUGUI _pickaxeLevelText;
+    [SerializeField] private TextMeshProUGUI[] _pickaxePriceText = new TextMeshProUGUI[2];
+    [SerializeField] private TextMeshProUGUI[] _pickaxeLevelText = new TextMeshProUGUI[2];
     [SerializeField] private int[] _bootsPrice = new int[8];
-    [SerializeField] private TextMeshProUGUI _bootsPriceText;
-    [SerializeField] private TextMeshProUGUI _bootsLevelText;
+    [SerializeField] private TextMeshProUGUI[] _bootsPriceText = new TextMeshProUGUI[2];
+    [SerializeField] private TextMeshProUGUI[] _bootsLevelText = new TextMeshProUGUI[2];
 
     private int _pickaxeLevel = 0;
     private int _bootsLevel = 0;
+    private int _indexUI;
 
     public static event Action<int> OnBuy;
     public static event Action<float> OnPickaxeUpgradeBought;
@@ -30,28 +31,45 @@ public class Shop : MonoBehaviour
         {
             if (_pickaxePrice[i] < 0) _pickaxePrice[i] = 0;
         }
-        
+
         for (int i = 0; i < _bootsPrice.Length; i++)
         {
             if (_bootsPrice[i] < 0) _bootsPrice[i] = 0;
         }
     }
 
-    private void Awake()
+    private void Start()
     {
-        _pickaxePriceText.text = _pickaxePrice[0].ToString();
-        _pickaxeLevelText.text = 0.ToString();
-        _bootsPriceText.text = _bootsPrice[0].ToString();
-        _bootsLevelText.text = 0.ToString();
-        UIToEnable.SetActive(false);
-        Debug.Log(_pickaxePrice.Length);
+        switch (YandexSDK.YaSDK.instance.currentPlatform)
+        {
+            case YandexSDK.Platform.desktop:
+                _indexUI = 0;
+                break;
+            case YandexSDK.Platform.phone:
+                _indexUI = 1;
+                break;
+            default:
+                _indexUI = 1;
+                break;
+        }
+
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        if (_pickaxePriceText[_indexUI] != null) _pickaxePriceText[_indexUI].text = _pickaxePrice[0].ToString();
+        if (_pickaxeLevelText[_indexUI] != null) _pickaxeLevelText[_indexUI].text = 0.ToString();
+        if (_bootsPriceText[_indexUI] != null) _bootsPriceText[_indexUI].text = _bootsPrice[0].ToString();
+        if (_bootsLevelText[_indexUI] != null) _bootsLevelText[_indexUI].text = 0.ToString();
+        UIToEnable[_indexUI].SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out PlayerMoney playerMoney))
         {
-            UIToEnable.SetActive(true);
+            UIToEnable[_indexUI].SetActive(true);
         }
     }
 
@@ -59,7 +77,7 @@ public class Shop : MonoBehaviour
     {
         if(other.TryGetComponent(out PlayerMoney playerMoney))
         {
-            UIToEnable.SetActive(false);
+            UIToEnable[_indexUI].SetActive(false);
         }
     }
 
@@ -73,10 +91,10 @@ public class Shop : MonoBehaviour
 
         _pickaxeLevel++;
 
-        if (_pickaxeLevel < _pickaxePrice.Length) _pickaxePriceText.text = _pickaxePrice[_pickaxeLevel].ToString();
-        else _pickaxePriceText.text = "Max";
+        if (_pickaxeLevel < _pickaxePrice.Length) _pickaxePriceText[_indexUI].text = _pickaxePrice[_pickaxeLevel].ToString();
+        else _pickaxePriceText[_indexUI].text = "Max";
 
-        _pickaxeLevelText.text = "lvl " + _pickaxeLevel;
+        _pickaxeLevelText[_indexUI].text = "lvl " + _pickaxeLevel;
     }
     
     public void BuyBootsUpgrade()
@@ -89,9 +107,9 @@ public class Shop : MonoBehaviour
 
         _bootsLevel++;
 
-        if (_bootsLevel < _bootsPrice.Length) _bootsPriceText.text = _bootsPrice[_bootsLevel].ToString();
-        else _bootsPriceText.text = "Max";
+        if (_bootsLevel < _bootsPrice.Length) _bootsPriceText[_indexUI].text = _bootsPrice[_bootsLevel].ToString();
+        else _bootsPriceText[_indexUI].text = "Max";
 
-        _bootsLevelText.text = "lvl " + _bootsLevel;
+        _bootsLevelText[_indexUI].text = "lvl " + _bootsLevel;
     }
 }

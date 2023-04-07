@@ -10,12 +10,13 @@ public class WavesController : MonoBehaviour
     [SerializeField] private DiggingObject[] _firstWave;
     [SerializeField] private DiggingObject[] _secondWave;
     [SerializeField] private BigDiggingObject _bigDiamondsBlock;
-    [SerializeField] private TextMeshProUGUI _levelCounterText;
+    [SerializeField] private TextMeshProUGUI[] _levelCounterText = new TextMeshProUGUI[2];
 
     private DiggingObject[,] objectsArray = new DiggingObject[2,64];
     private bool _firstWaveDigged;
     private bool _secondWaveDigged;
     private int _levelCounter;
+    private int _indexUI;
 
     private void OnEnable()
     {
@@ -29,6 +30,19 @@ public class WavesController : MonoBehaviour
 
     private void Start()
     {
+        switch (YandexSDK.YaSDK.instance.currentPlatform)
+        {
+            case YandexSDK.Platform.desktop:
+                _indexUI = 0;
+                break;
+            case YandexSDK.Platform.phone:
+                _indexUI = 1;
+                break;
+            default:
+                _indexUI = 1;
+                break;
+        }
+
         Initialize();
         //DigBlocks();
     }
@@ -94,7 +108,7 @@ public class WavesController : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (_levelCounterText != null) _levelCounterText.text = "lvl " + _levelCounter;
+        if (_levelCounterText != null) _levelCounterText[_indexUI].text = "lvl " + _levelCounter;
     }
 
     private async void DigBlocks()

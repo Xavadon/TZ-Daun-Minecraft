@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.mrpart.yandexsdkplugin": "https://github.com/MrPart256/YandexSDKWebGLUnityPlugin.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "1.17.1",
     "com.unity.feature.development": "1.0.1",
